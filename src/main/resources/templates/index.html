@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"></head>
+
+<body>
+<!-- Pre-loader start -->
+<div th:replace="fragments/pre-load :: pre-load"></div>
+<!-- Pre-loader end -->
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+
+        <nav th:replace="fragments/navbar :: navbar"></nav>
+
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+
+                <nav th:replace="fragments/navbarmainmenu :: navbarmain"></nav>
+
+                <div class="pcoded-content">
+                    <!-- Page-header start -->
+                    <div th:replace="fragments/page-header :: pageheader"></div>
+                    <!-- Page-header end -->
+                    <div class="pcoded-inner-content">
+                        <!-- Main-body start -->
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page-body start -->
+                                <div class="page-body">
+                                    <div class="row">
+                                        <!-- INCLUIR DADOS DA TELA AQUI -->
+
+                                        <!-- FIM  INCLUSAO DADOS DA TELA -->
+                                    </div>
+                                </div>
+                                <!-- Page-body end -->
+                            </div>
+                            <div id="styleSelector"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/javascriptfile :: javascriptfile"></div>
+</body>
+
+</html>

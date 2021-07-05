@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"></head>
+
+<body>
+<!-- Pre-loader start -->
+<div th:replace="fragments/pre-load :: pre-load"></div>
+<!-- Pre-loader end -->
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+
+        <nav th:replace="fragments/navbar :: navbar"></nav>
+
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+
+                <nav th:replace="fragments/navbarmainmenu :: navbarmain"></nav>
+
+                <div class="pcoded-content">
+                    <!-- Page-header start -->
+                    <div th:replace="fragments/page-header :: pageheader"></div>
+                    <!-- Page-header end -->
+                    <div class="pcoded-inner-content">
+                        <!-- Main-body start -->
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page-body start -->
+                                <div class="page-body">
+                                    <div class="row">
+                                        <!-- INCLUIR DADOS DA TELA AQUI -->
+                                        <div class="col-sm-12">
+                                            <!-- Basic Form Inputs card start -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>Cadastro de Usuarios</h5>
+                                                    <div class="card-header-right">
+                                                        <ul class="list-unstyled card-option">
+                                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card-block">
+                                                    <h4 class="sub-title">Basic Inputs</h4>
+                                                    <form class="form-material" action="salvarColaborador" method="post" id="formUser" th:object="${colaboradorobj}">
+
+                                                        <!--                                                            NOME COLABORADOR-->
+                                                        <div class="form-group form-default">
+                                                            <input type="text" name="nome" id="nome" class="form-control" required="required" autocomplete="off" >
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Nome do Usuario</label>
+                                                        </div>
+
+                                                        <!--                                                            CARGO COLABORADOR-->
+                                                        <div class="form-group form-default">
+                                                            <select name="cargo" id="cargo" class="form-control" th:field="*{cargo}" onchange="validarForm()">
+                                                                <option th:each="cargoType : ${cargoTypes}"
+                                                                        th:text="${cargoType.cargo}"
+                                                                        th:value="${cargoType}"></option>
+                                                            </select>
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label" th:for="cargo">Cargo</label>
+                                                        </div>
+
+                                                        <!--                                                            ESPECIALIDADE COLABORADOR-->
+                                                        <div class="form-group form-default">
+                                                            <select name="especialidade" id="especialidade" class="form-control" th:field="*{especialidade}" hidden="hidden" disabled="disabled">
+                                                                <option th:each="especialidade: ${especialidades}"
+                                                                        th:text="${especialidade.nome}"
+                                                                        th:value="${especialidade.id}"></option>
+                                                            </select>
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label" hidden="hidden" id="especialidade2" th:for="especialidade">Especialidade</label>
+                                                        </div>
+
+                                                        <!--                                                            LOGIN COLABORADOR-->
+                                                        <div class="form-group form-default">
+                                                            <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off" >
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Login</label>
+                                                        </div>
+
+                                                        <!--                                                            SENHA COLABORADOR-->
+                                                        <div class="form-group form-default">
+                                                            <input type="password" name="senha" id="senha" class="form-control" required="required" autocomplete="off" >
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Senha</label>
+                                                        </div>
+
+                                                        <!--                                                                BOTOES NOVO E SALVAR-->
+                                                        <button  type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();">Novo</button>
+                                                        <button class="btn btn-success waves-effect waves-light">Salvar</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- FIM  INCLUSAO DADOS DA TELA -->
+                                    </div>
+                                </div>
+                                <!-- Page-body end -->
+                            </div>
+                            <div id="styleSelector"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/javascriptfile :: javascriptfile"></div>
+<script type="text/javascript">
+    function limparForm() {
+
+        var elementos = document.getElementById("formUser").elements;//retorna os elementos hhtml dentro do form
+
+        for(p = 0; p < elementos.length; p++){
+            elementos[p].value = '';
+        }
+    }
+
+    function validarForm() {
+        var optionSelect = document.getElementById("cargo").value;
+
+        if(optionSelect =="COL" ){
+            document.getElementById("especialidade").disabled = false;
+            document.getElementById("especialidade").hidden = false;
+            document.getElementById("especialidade2").hidden = false;
+        }else{
+            document.getElementById("especialidade").disabled = true;
+            document.getElementById("especialidade").hidden = true;
+            document.getElementById("especialidade2").hidden = true;
+        }
+    }
+</script>
+</body>
+
+</html>

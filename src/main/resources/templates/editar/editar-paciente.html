@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"></head>
+
+<body>
+<!-- Pre-loader start -->
+<div th:replace="fragments/pre-load :: pre-load"></div>
+<!-- Pre-loader end -->
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+
+        <nav th:replace="fragments/navbar :: navbar"></nav>
+
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+
+                <nav th:replace="fragments/navbarmainmenu :: navbarmain"></nav>
+
+                <div class="pcoded-content">
+                    <!-- Page-header start -->
+                    <div th:replace="fragments/page-header :: pageheader"></div>
+                    <!-- Page-header end -->
+                    <div class="pcoded-inner-content">
+                        <!-- Main-body start -->
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page-body start -->
+                                <div class="page-body">
+                                    <div class="row">
+                                        <!-- INCLUIR DADOS DA TELA AQUI -->
+                                        <div class="col-sm-12">
+                                            <!-- Basic Form Inputs card start -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>Editar Colaboradores</h5>
+                                                    <div class="card-header-right">
+                                                        <ul class="list-unstyled card-option">
+                                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card-block">
+                                                    <h4 class="sub-title">Basic Inputs</h4>
+                                                    <form class="form-material" action="salvar-paciente-editado" method="post" th:object="${pacienteobj}">
+
+                                                            <div class="form-group form-default">
+                                                                <input name="id" class="form-control" hidden="hidden" th:field="*{id}">
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label" hidden="hidden">ID</label>
+                                                            </div>
+
+<!--                                                        NOME PACIENTE-->
+                                                        <div class="form-group form-default">
+                                                            <input type="text" name="nome" id="nome" class="form-control" required="required" autocomplete="off" th:field="*{nome}">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Nome do Paciente</label>
+                                                        </div>
+
+                                                        <!--                                                            CPF PACIENTE-->
+                                                        <div class="form-group form-default">
+                                                            <input type="text" name="cpf" id="cpf" class="form-control" required="required" hidden="hidden" autocomplete="off" th:field="*{cpf}">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label" hidden="hidden">Cpf</label>
+                                                        </div>
+
+                                                        <!--                                                            SEXO PACIENTE-->
+                                                        <div class="form-group form-default">
+                                                            <select name="select" class="form-control" th:field="*{sexo}">
+                                                                <option th:each="sexoType : ${sexoTypes}"
+                                                                        th:text="${sexoType.sexo}"
+                                                                        th:value="${sexoType}"></option>
+                                                            </select>
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label" th:for="sexo">Sexo</label>
+                                                        </div>
+
+                                                        <!--                                                            TELEFONE PACIENTE-->
+                                                        <div class="form-group form-default">
+                                                            <input type="text" name="telefone" id="telefone" class="form-control" required="required" autocomplete="off" th:field="*{telefone}">
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Telefone</label>
+                                                        </div>
+
+                                                            <button class="btn btn-success waves-effect waves-light">Salvar</button>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- FIM  INCLUSAO DADOS DA TELA -->
+                                    </div>
+                                </div>
+                                <!-- Page-body end -->
+                            </div>
+                            <div id="styleSelector"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/javascriptfile :: javascriptfile"></div>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#cpf').mask('000.000.000-00')
+    });
+    $(document).ready(function(){
+        $('#telefone').mask('(00) 00000-0000')
+    });
+</script>
+</body>
+
+</html>

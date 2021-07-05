@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header :: header"></head>
+
+  <body>
+  <!-- Pre-loader start -->
+  <div th:replace="fragments/pre-load :: pre-load"></div>
+  <!-- Pre-loader end -->
+  <div id="pcoded" class="pcoded">
+      <div class="pcoded-overlay-box"></div>
+      <div class="pcoded-container navbar-wrapper">
+
+        <nav th:replace="fragments/navbar :: navbar"></nav>
+
+          <div class="pcoded-main-container">
+              <div class="pcoded-wrapper">
+
+                 <nav th:replace="fragments/navbarmainmenu :: navbarmain"></nav>
+
+                  <div class="pcoded-content">
+                      <!-- Page-header start -->
+                      <div th:replace="fragments/page-header :: pageheader"></div>
+                      <!-- Page-header end -->
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-body start -->
+                                    <div class="page-body">
+                                            <!-- INCLUIR DADOS DA TELA AQUI -->
+                                            <!-- Basic table card start -->
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5>Basic Table</h5>
+                                                    <span>use class <code>table</code> inside table element</span>
+                                                    <div class="p-15 p-b-0">
+                                                        <form class="form-material" action="pesquisar-colaborador" method="post">
+                                                            <div class="form-group form-primary">
+                                                                <input type="text" name="colaboradorPesquisar" class="form-control" required="">
+                                                                <span class="form-bar"></span>
+                                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Pesquisar Colaborador</label>
+                                                                <br/>
+                                                                <button class="btn btn-primary waves-effect waves-light">Buscar</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="card-header-right">
+                                                        <ul class="list-unstyled card-option">
+                                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                                            <li><i class="fa fa-trash close-card"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card-block table-border-style">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Nome</th>
+                                                                <th>Cargo</th>
+                                                                <th>Login</th>
+                                                                <th></th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each = "usuario : ${usuarios}">
+                                                                <td th:text = "${usuario.nome}"></td>
+                                                                <td th:text = "${usuario.cargo.cargo}"></td>
+                                                                <td th:text = "${usuario.login}"></td>
+                                                                <td><a th:href="@{/editar-colaborador/{idColaborador}(idColaborador=${usuario.id})}" class="btn btn-warning waves-effect waves-light">Editar</a></td>
+                                                                <td><a th:href="@{/excluir-colaborador/{idColaborador}(idColaborador=${usuario.id})}"class="btn btn-danger waves-effect waves-light">Excluir</a></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Basic table card end -->
+                                            <!-- FIM  INCLUSAO DADOS DA TELA -->
+
+
+                                    </div>
+                                    <!-- Page-body end -->
+                                </div>
+                                <div id="styleSelector"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div th:replace="fragments/javascriptfile :: javascriptfile"></div>
+</body>
+
+</html>
