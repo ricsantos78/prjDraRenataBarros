@@ -1,6 +1,6 @@
 package com.example.prjdrarenatabarros.domain.entity;
 
-import com.example.prjdrarenatabarros.domain.Enum.CargoColaborador;
+import com.example.prjdrarenatabarros.domain.Enum.CargoUsuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class Usuario implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 5)
-    private CargoColaborador cargo;
+    private CargoUsuario cargo;
 
     @NotEmpty
     @Column(length = 30)

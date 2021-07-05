@@ -1,7 +1,7 @@
 package com.example.prjdrarenatabarros.controller;
 
-import com.example.prjdrarenatabarros.domain.Enum.CargoColaborador;
-import com.example.prjdrarenatabarros.domain.entity.Especialidade;
+import com.example.prjdrarenatabarros.domain.Enum.CargoUsuario;
+import com.example.prjdrarenatabarros.domain.entity.Paciente;
 import com.example.prjdrarenatabarros.domain.entity.Usuario;
 import com.example.prjdrarenatabarros.domain.repository.EspecialidadeRepository;
 import com.example.prjdrarenatabarros.domain.repository.UsuarioRepository;
@@ -21,59 +21,69 @@ public class UsuarioController {
     @Autowired
     private EspecialidadeRepository especialidadeRepository;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/cadastro-colaborador")
-    public ModelAndView cadastroColaborador(String especialidade){
-        ModelAndView andView = new ModelAndView("cadastro/cadastro-colaborador");
+    @RequestMapping(method = RequestMethod.GET, value = "/cadastro-usuario")
+    public ModelAndView cadastrousuario(){
+        ModelAndView andView = new ModelAndView("cadastro/cadastro-usuario");
         andView.addObject("especialidades", especialidadeRepository.findAll());
-        andView.addObject("colaboradorobj", new Usuario());
-        andView.addObject("cargoTypes", CargoColaborador.values());
+        andView.addObject("usuarioObj", new Usuario());
+        andView.addObject("cargoTypes", CargoUsuario.values());
         return andView;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "**/salvarColaborador")
+    @RequestMapping(method = RequestMethod.POST, value = "**/salvarUsuario")
     public ModelAndView salvar(Usuario usuario){
         usuarioRepository.save(usuario);
-        ModelAndView andView = new ModelAndView("cadastro/cadastro-colaborador");
-        andView.addObject("colaboradorobj", new Usuario());
-        andView.addObject("cargoTypes", CargoColaborador.values());
+        ModelAndView andView = new ModelAndView("cadastro/cadastro-usuario");
+        andView.addObject("usuarioObj", new Usuario());
+        andView.addObject("cargoTypes", CargoUsuario.values());
         return andView;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "gerenciamento-colaborador")
+    @RequestMapping(method = RequestMethod.GET, value = "gerenciamento-usuario")
     public ModelAndView usuarios(){
-        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-colaborador");
+        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");
         Iterable<Usuario> usuarioIt = usuarioRepository.findAll();
         andView.addObject("usuarios", usuarioIt);
         return andView;
     }
 
-    @GetMapping("/editar-colaborador/{idColaborador}") //recebendo o parametro da url com o idColaborador
-    public ModelAndView editarColaborador(@PathVariable("idColaborador")Long idColaborador){ //pegando a vareavel, "idcolaborador" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
-        ModelAndView andView = new ModelAndView("editar/editar-colaborador");//retorna para tela de editar apos o click do botao
-        Optional<Usuario> usuario = usuarioRepository.findById(idColaborador);//busca o objeto usuario pelo id
-        andView.addObject("colaboradorobj", usuario.get());//passar o objeto da tela
-        andView.addObject("cargoTypes", CargoColaborador.values());
+    @GetMapping("/editar-usuario/{idusuario}") //recebendo o parametro da url com o idusuario
+    public ModelAndView editarusuario(@PathVariable("idusuario")Long idusuario){ //pegando a vareavel, "idusuario" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
+        ModelAndView andView = new ModelAndView("editar/editar-usuario");//retorna para tela de editar apos o click do botao
+        Optional<Usuario> usuario = usuarioRepository.findById(idusuario);//busca o objeto usuario pelo id
+        andView.addObject("usuarioObj", usuario.get());//passar o objeto da tela
+        andView.addObject("cargoTypes", CargoUsuario.values());
+        andView.addObject("especialidades", especialidadeRepository.findAll());
         return andView;
     }
 
-    @GetMapping("/excluir-colaborador/{idColaborador}") //recebendo o parametro da url com o idColaborador
-    public ModelAndView excluirColaborador(@PathVariable("idColaborador")Long idColaborador){ //pegando a vareavel, "idcolaborador" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
+    @PostMapping(value = "**/salvar-usuario-editado")
+    public ModelAndView salvarEdit(Usuario usuario){
+        usuarioRepository.save(usuario);
+        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");
+        Iterable<Usuario> usuarioIt = usuarioRepository.findAll();
+        andView.addObject("usuarios", usuarioIt);
+        return andView;
+    }
 
-        usuarioRepository.deleteById(idColaborador);
+    @GetMapping("/excluir-usuario/{idusuario}") //recebendo o parametro da url com o idusuario
+    public ModelAndView excluirusuario(@PathVariable("idusuario")Long idusuario){ //pegando a vareavel, "idusuario" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
 
-        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-colaborador");//retorna para tela de editar apos o click do botao
+        usuarioRepository.deleteById(idusuario);
+
+        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");//retorna para tela de editar apos o click do botao
 
         andView.addObject("usuarios", usuarioRepository.findAll());
 
         return andView;
     }
 
-    @PostMapping("**/pesquisar-colaborador")
-    public ModelAndView pesquisar(@RequestParam("colaboradorPesquisar")String colaboradorPesquisar){
+    @PostMapping("**/pesquisar-usuario")
+    public ModelAndView pesquisar(@RequestParam("usuarioPesquisar")String usuarioPesquisar){
 
-        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-colaborador");//retorna para tela de editar apos o click do botao
+        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");//retorna para tela de editar apos o click do botao
 
-        andView.addObject("usuarios", usuarioRepository.findUsuarioByName(colaboradorPesquisar));
+        andView.addObject("usuarios", usuarioRepository.findUsuarioByName(usuarioPesquisar));
 
         return andView;
     }

@@ -35,11 +35,11 @@
                                                     <h5>Basic Table</h5>
                                                     <span>use class <code>table</code> inside table element</span>
                                                     <div class="p-15 p-b-0">
-                                                        <form class="form-material" action="pesquisar-colaborador" method="post">
+                                                        <form class="form-material" action="pesquisar-usuario" method="post">
                                                             <div class="form-group form-primary">
-                                                                <input type="text" name="colaboradorPesquisar" class="form-control" required="">
+                                                                <input type="text" name="usuarioPesquisar" class="form-control" required="">
                                                                 <span class="form-bar"></span>
-                                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Pesquisar Colaborador</label>
+                                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Pesquisar Usuario</label>
                                                                 <br/>
                                                                 <button class="btn btn-primary waves-effect waves-light">Buscar</button>
                                                             </div>
@@ -72,8 +72,8 @@
                                                                 <td th:text = "${usuario.nome}"></td>
                                                                 <td th:text = "${usuario.cargo.cargo}"></td>
                                                                 <td th:text = "${usuario.login}"></td>
-                                                                <td><a th:href="@{/editar-colaborador/{idColaborador}(idColaborador=${usuario.id})}" class="btn btn-warning waves-effect waves-light">Editar</a></td>
-                                                                <td><a th:href="@{/excluir-colaborador/{idColaborador}(idColaborador=${usuario.id})}"class="btn btn-danger waves-effect waves-light">Excluir</a></td>
+                                                                <td><a th:href="@{/editar-usuario/{idusuario}(idusuario=${usuario.id})}" class="btn btn-warning waves-effect waves-light">Editar</a></td>
+                                                                <td><a th:href="@{/excluir-usuario/{idusuario}(idusuario=${usuario.id})}"class="btn btn-danger waves-effect waves-light">Excluir</a></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>

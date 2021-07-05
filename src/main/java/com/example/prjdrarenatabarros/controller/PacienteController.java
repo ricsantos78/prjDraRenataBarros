@@ -59,7 +59,6 @@ public class PacienteController {
         Optional<Paciente>paciente = pacienteRepository.findById(idPaciente);
         andView.addObject("pacienteobj", paciente.get());
         andView.addObject("sexoTypes", SexoPaciente.values());
-
         return andView;
     }
 

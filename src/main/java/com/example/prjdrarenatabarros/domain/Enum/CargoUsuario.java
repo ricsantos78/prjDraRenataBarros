@@ -1,12 +1,12 @@
 package com.example.prjdrarenatabarros.domain.Enum;
 
-public enum CargoColaborador {
+public enum CargoUsuario {
     ADM("Administrador"),
     COL("Colaborador"),
     REC("Recepção");
 
     private final String cargo;
-    CargoColaborador(String cargo){
+    CargoUsuario(String cargo){
         this.cargo = cargo;
     }
 

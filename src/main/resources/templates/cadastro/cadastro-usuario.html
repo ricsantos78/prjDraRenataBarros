@@ -47,16 +47,16 @@
                                                 </div>
                                                 <div class="card-block">
                                                     <h4 class="sub-title">Basic Inputs</h4>
-                                                    <form class="form-material" action="salvarColaborador" method="post" id="formUser" th:object="${colaboradorobj}">
+                                                    <form class="form-material" action="salvarUsuario" method="post" id="formUser" th:object="${usuarioObj}">
 
-                                                        <!--                                                            NOME COLABORADOR-->
+                                                        <!--                                                            NOME USUARIO-->
                                                         <div class="form-group form-default">
                                                             <input type="text" name="nome" id="nome" class="form-control" required="required" autocomplete="off" >
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Nome do Usuario</label>
                                                         </div>
 
-                                                        <!--                                                            CARGO COLABORADOR-->
+                                                        <!--                                                            CARGO USUARIO-->
                                                         <div class="form-group form-default">
                                                             <select name="cargo" id="cargo" class="form-control" th:field="*{cargo}" onchange="validarForm()">
                                                                 <option th:each="cargoType : ${cargoTypes}"
@@ -67,7 +67,7 @@
                                                             <label class="float-label" th:for="cargo">Cargo</label>
                                                         </div>
 
-                                                        <!--                                                            ESPECIALIDADE COLABORADOR-->
+                                                        <!--                                                            ESPECIALIDADE USUARIO-->
                                                         <div class="form-group form-default">
                                                             <select name="especialidade" id="especialidade" class="form-control" th:field="*{especialidade}" hidden="hidden" disabled="disabled">
                                                                 <option th:each="especialidade: ${especialidades}"
@@ -78,14 +78,14 @@
                                                             <label class="float-label" hidden="hidden" id="especialidade2" th:for="especialidade">Especialidade</label>
                                                         </div>
 
-                                                        <!--                                                            LOGIN COLABORADOR-->
+                                                        <!--                                                            LOGIN USUARIO-->
                                                         <div class="form-group form-default">
                                                             <input type="text" name="login" id="login" class="form-control" required="required" autocomplete="off" >
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Login</label>
                                                         </div>
 
-                                                        <!--                                                            SENHA COLABORADOR-->
+                                                        <!--                                                            SENHA USUARIO-->
                                                         <div class="form-group form-default">
                                                             <input type="password" name="senha" id="senha" class="form-control" required="required" autocomplete="off" >
                                                             <span class="form-bar"></span>

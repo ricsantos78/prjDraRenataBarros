@@ -32,15 +32,6 @@ public class EspecialidadeController {
         return andView;
     }
 
-    @PostMapping(value = "**/salvar-especialidade-editado")
-    public ModelAndView salvarEdit(Especialidade especialidade){
-        especialidadeRepository.save(especialidade);
-        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-especialidade");
-        Iterable<Especialidade> especialidadeIt = especialidadeRepository.findAll();
-        andView.addObject("especialidades", especialidadeIt);
-        return andView;
-    }
-
     @GetMapping(value = "/gerenciamento-especialidade")
     public ModelAndView especialidade(){
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-especialidade");
