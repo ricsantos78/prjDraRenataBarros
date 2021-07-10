@@ -71,7 +71,7 @@
                                                                 <td th:text = "${paciente.nome}"></td>
                                                                 <td th:text = "${paciente.cpf}"></td>
                                                                 <td th:text = "${paciente.telefone}"></td>
-                                                                <td><a th:href="@{/atendimento-paciente/{idPaciente}(idPaciente=${paciente.id})}"class="btn btn-danger waves-effect waves-light">Novo Atendimento</a></td>
+                                                                <td><a th:href="@{/atendimento/{idPaciente}(idPaciente=${paciente.id})}"class="btn btn-danger waves-effect waves-light">Novo Atendimento</a></td>
                                                                 <td><a th:href="@{/historico-paciente/{idPaciente}(idPaciente=${paciente.id})}"class="btn btn-danger waves-effect waves-light">Historico</a></td>
                                                                 <td><a th:href="@{/editar-paciente/{idPaciente}(idPaciente=${paciente.id})}" class="btn btn-warning waves-effect waves-light">Editar</a></td>
                                                                 <td><a th:href="@{/excluir-paciente/{idPaciente}(idPaciente=${paciente.id})}"class="btn btn-danger waves-effect waves-light">Excluir</a></td>

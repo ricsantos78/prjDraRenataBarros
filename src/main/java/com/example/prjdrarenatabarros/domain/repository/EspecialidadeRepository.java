@@ -14,4 +14,5 @@ public interface EspecialidadeRepository extends CrudRepository<Especialidade, L
 
     @Query("select u from Especialidade u where u.nome like %?1%")
     List<Especialidade> findEspecialidadeByName(String nome);
+
 }

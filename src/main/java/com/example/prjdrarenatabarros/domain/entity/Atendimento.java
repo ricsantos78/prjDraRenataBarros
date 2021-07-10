@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -26,4 +27,11 @@ public class Atendimento implements Serializable {
     @ManyToOne
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
+
+    @ManyToOne
+    @JoinColumn(name = "especialidade_id")
+    private Especialidade especialidade;
+
+    @Column(name = "data_atendimento")
+    private LocalDate dataPedido;
 }
