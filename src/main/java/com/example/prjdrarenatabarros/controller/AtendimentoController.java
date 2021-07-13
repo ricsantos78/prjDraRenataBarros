@@ -1,7 +1,10 @@
 package com.example.prjdrarenatabarros.controller;
 
+import com.example.prjdrarenatabarros.domain.entity.Atendimento;
+import com.example.prjdrarenatabarros.domain.entity.Especialidade;
 import com.example.prjdrarenatabarros.domain.entity.Paciente;
 import com.example.prjdrarenatabarros.domain.repository.AtendimentoRepository;
+import com.example.prjdrarenatabarros.services.AtendimentoService;
 import com.example.prjdrarenatabarros.services.EspecialidadeService;
 import com.example.prjdrarenatabarros.services.PacienteService;
 import com.example.prjdrarenatabarros.services.UsuarioService;
@@ -17,7 +20,7 @@ import java.util.Optional;
 public class AtendimentoController {
 
     @Autowired
-    private AtendimentoRepository atendimentoRepository;
+    private AtendimentoService atendimentoService;
 
     @Autowired
     private PacienteService pacienteService;
@@ -42,5 +45,12 @@ public class AtendimentoController {
     public String usuariosPorEspecialidade(@PathVariable("id") Long id) {
         Gson gson = new Gson();
         return gson.toJson(usuarioService.findUsuarioByEspecialidade(id));
+    }
+
+    @PostMapping(value = "**/salvar-atendimento")
+    public ModelAndView salvar(Atendimento atedimento){
+        atendimentoService.save(atedimento);
+        ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-paciente");
+        return andView;
     }
 }
