@@ -1,10 +1,9 @@
 package com.example.prjdrarenatabarros.controller;
 
 import com.example.prjdrarenatabarros.domain.Enum.CargoUsuario;
-import com.example.prjdrarenatabarros.domain.entity.Paciente;
 import com.example.prjdrarenatabarros.domain.entity.Usuario;
-import com.example.prjdrarenatabarros.domain.repository.EspecialidadeRepository;
-import com.example.prjdrarenatabarros.domain.repository.UsuarioRepository;
+import com.example.prjdrarenatabarros.services.EspecialidadeService;
+import com.example.prjdrarenatabarros.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +15,15 @@ import java.util.Optional;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     @Autowired
-    private EspecialidadeRepository especialidadeRepository;
+    private EspecialidadeService especialidadeService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/cadastro-usuario")
     public ModelAndView cadastrousuario(){
         ModelAndView andView = new ModelAndView("cadastro/cadastro-usuario");
-        andView.addObject("especialidades", especialidadeRepository.findAll());
+        andView.addObject("especialidades", especialidadeService.findAll());
         andView.addObject("usuarioObj", new Usuario());
         andView.addObject("cargoTypes", CargoUsuario.values());
         return andView;
@@ -32,7 +31,7 @@ public class UsuarioController {
 
     @RequestMapping(method = RequestMethod.POST, value = "**/salvarUsuario")
     public ModelAndView salvar(Usuario usuario){
-        usuarioRepository.save(usuario);
+        usuarioService.save(usuario);
         ModelAndView andView = new ModelAndView("cadastro/cadastro-usuario");
         andView.addObject("usuarioObj", new Usuario());
         andView.addObject("cargoTypes", CargoUsuario.values());
@@ -42,7 +41,7 @@ public class UsuarioController {
     @RequestMapping(method = RequestMethod.GET, value = "gerenciamento-usuario")
     public ModelAndView usuarios(){
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");
-        Iterable<Usuario> usuarioIt = usuarioRepository.findAll();
+        Iterable<Usuario> usuarioIt = usuarioService.findAll();
         andView.addObject("usuarios", usuarioIt);
         return andView;
     }
@@ -50,18 +49,18 @@ public class UsuarioController {
     @GetMapping("/editar-usuario/{idusuario}") //recebendo o parametro da url com o idusuario
     public ModelAndView editarusuario(@PathVariable("idusuario")Long idusuario){ //pegando a vareavel, "idusuario" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
         ModelAndView andView = new ModelAndView("editar/editar-usuario");//retorna para tela de editar apos o click do botao
-        Optional<Usuario> usuario = usuarioRepository.findById(idusuario);//busca o objeto usuario pelo id
+        Optional<Usuario> usuario = Optional.ofNullable(usuarioService.find(idusuario));//busca o objeto usuario pelo id
         andView.addObject("usuarioObj", usuario.get());//passar o objeto da tela
         andView.addObject("cargoTypes", CargoUsuario.values());
-        andView.addObject("especialidades", especialidadeRepository.findAll());
+        andView.addObject("especialidades", especialidadeService.findAll());
         return andView;
     }
 
     @PostMapping(value = "**/salvar-usuario-editado")
     public ModelAndView salvarEdit(Usuario usuario){
-        usuarioRepository.save(usuario);
+        usuarioService.save(usuario);
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");
-        Iterable<Usuario> usuarioIt = usuarioRepository.findAll();
+        Iterable<Usuario> usuarioIt = usuarioService.findAll();
         andView.addObject("usuarios", usuarioIt);
         return andView;
     }
@@ -69,11 +68,11 @@ public class UsuarioController {
     @GetMapping("/excluir-usuario/{idusuario}") //recebendo o parametro da url com o idusuario
     public ModelAndView excluirusuario(@PathVariable("idusuario")Long idusuario){ //pegando a vareavel, "idusuario" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
 
-        usuarioRepository.deleteById(idusuario);
+        usuarioService.delete(idusuario);
 
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");//retorna para tela de editar apos o click do botao
 
-        andView.addObject("usuarios", usuarioRepository.findAll());
+        andView.addObject("usuarios", usuarioService.findAll());
 
         return andView;
     }
@@ -83,7 +82,7 @@ public class UsuarioController {
 
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-usuario");//retorna para tela de editar apos o click do botao
 
-        andView.addObject("usuarios", usuarioRepository.findUsuarioByName(usuarioPesquisar));
+        andView.addObject("usuarios", usuarioService.findUsuarioByName(usuarioPesquisar));
 
         return andView;
     }

@@ -68,10 +68,7 @@
 
                                                         <!--                                                            ESPECIALIDADE USUARIO-->
                                                         <div class="form-group form-default">
-                                                            <select name="usuario" id="usuario" class="form-control"  hidden="hidden">
-                                                                <option>--alege
-                                                                    agentia --</option>
-                                                            </select>
+                                                            <select name="usuario" id="usuario" class="form-control"  hidden="hidden"></select>
                                                             <span class="form-bar"></span>
                                                             <label class="float-label" hidden="hidden" id="usuario2" th:for="usuario">Colaborador</label>
                                                         </div>
@@ -114,25 +111,23 @@
     }
 </script>
 
-
-
 <script type="text/javascript">
     $(document).ready(function() {
         $('#especialidade').change(
             function() {
-                $.getJSON('/usuariosPorEspecialidade', {
-                    especialidadeId : $(this).val(),
-                    ajax : 'true'
-                }, function(data) {
-                    var html = '<option value="">--alege agentia--</option>';
-                    var len = data.length;
-                    for ( var i = 0; i < len; i++) {
-                        html += '<option value="' + data[i].name + '">'
-                            + data[i].name + '</option>';
-                    }
-                    html += '</option>';
 
-                    $('#usuario').html(html);
+                var especialidadeId = $(this).val();
+                $.ajax({
+                    type:'GET',
+                    url: '/usuariosPorEspecialidade/' +especialidadeId,
+                    success: function (result) {
+                        var result = JSON.parse(result);
+                        var s = '';
+                        for(var i = 0; i < result.length; i++){
+                            s+='<option value="'+ result[i].id + '">'+result[i].nome+ '</option>';
+                        }
+                        $('#usuario').html(s);
+                    }
                 });
             });
     });

@@ -2,7 +2,7 @@ package com.example.prjdrarenatabarros.controller;
 
 import com.example.prjdrarenatabarros.domain.entity.Especialidade;
 import com.example.prjdrarenatabarros.domain.entity.Paciente;
-import com.example.prjdrarenatabarros.domain.repository.EspecialidadeRepository;
+import com.example.prjdrarenatabarros.services.EspecialidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class EspecialidadeController {
 
     @Autowired
-    private EspecialidadeRepository especialidadeRepository;
+    private EspecialidadeService especialidadeService;
 
     @GetMapping(value = "/cadastro-especialidade")
     public ModelAndView cadastroEspecialidade(){
@@ -26,7 +26,7 @@ public class EspecialidadeController {
 
     @PostMapping(value = "**/salvar-especialidade")
     public ModelAndView salvar(Especialidade especialidade){
-        especialidadeRepository.save(especialidade);
+        especialidadeService.save(especialidade);
         ModelAndView andView = new ModelAndView("cadastro/cadastro-especialidade");
         andView.addObject("especialidadeobj", new Especialidade());
         return andView;
@@ -35,7 +35,7 @@ public class EspecialidadeController {
     @GetMapping(value = "/gerenciamento-especialidade")
     public ModelAndView especialidade(){
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-especialidade");
-        Iterable<Especialidade> especialidadeIt = especialidadeRepository.findAll();
+        Iterable<Especialidade> especialidadeIt = especialidadeService.findAll();
         andView.addObject("especialidades", especialidadeIt);
         return andView;
     }
@@ -43,16 +43,16 @@ public class EspecialidadeController {
 
     @GetMapping(value = "/excluir-especialidade/{idEspecialidade}")
     public ModelAndView excluirEspecialidade(@PathVariable("idEspecialidade")Long idEspecialidade){
-        especialidadeRepository.deleteById(idEspecialidade);
+        especialidadeService.delete(idEspecialidade);
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-especialidade");
-        andView.addObject("especialidades", especialidadeRepository.findAll());
+        andView.addObject("especialidades", especialidadeService.findAll());
         return andView;
     }
 
     @PostMapping("**/pesquisar-especialidade")
     public ModelAndView pesquisar(@RequestParam("especialidadePesquisar") String especialidadePesquisar){
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-especialidade");
-        andView.addObject("especialidades",especialidadeRepository.findEspecialidadeByName(especialidadePesquisar));
+        andView.addObject("especialidades",especialidadeService.findEspecialidadeByName(especialidadePesquisar));
         return andView;
     }
 }
