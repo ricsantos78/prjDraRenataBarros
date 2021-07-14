@@ -46,7 +46,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-block">
-                                                    <form class="form-material" action="salvar-atendimento" method="post" id="formUser">
+                                                    <form class="form-material" th:action="@{/salvar-atendimento/{idPaciente}(idPaciente=${pacienteobj.id})}" method="post" id="formUser">
 
                                                         <div class="form-group form-default form-static-label">
                                                             <input type="text" class="form-control" name="paciente" required="" th:field="*{pacienteobj.nome}" th:value="*{pacienteobj.id}" readonly="readonly">

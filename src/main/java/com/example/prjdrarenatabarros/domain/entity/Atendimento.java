@@ -28,10 +28,6 @@ public class Atendimento implements Serializable {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
-    @ManyToOne
-    @JoinColumn(name = "especialidade_id")
-    private Especialidade especialidade;
-
     @Column(name = "data_atendimento")
-    private LocalDate dataPedido;
+    private String dataPedido;
 }

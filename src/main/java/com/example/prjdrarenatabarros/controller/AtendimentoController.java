@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -47,8 +49,23 @@ public class AtendimentoController {
         return gson.toJson(usuarioService.findUsuarioByEspecialidade(id));
     }
 
-    @PostMapping(value = "**/salvar-atendimento")
-    public ModelAndView salvar(Atendimento atedimento){
+    @PostMapping(value = "**/salvar-atendimento/{idPaciente}")
+    public ModelAndView salvar(Atendimento atedimento,
+                               @PathVariable("idPaciente") Long id){
+
+
+
+        Paciente paciente = pacienteService.find(id);
+        atedimento.setPaciente(paciente);
+
+        LocalDate localDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String dataFormatada = formatter.format(localDate);
+        atedimento.setDataPedido(dataFormatada);
+
+//        Especialidade especialidade = especialidadeService.find(idEspecialidade);
+//        atedimento.setEspecialidade(especialidade);
+
         atendimentoService.save(atedimento);
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-paciente");
         return andView;
