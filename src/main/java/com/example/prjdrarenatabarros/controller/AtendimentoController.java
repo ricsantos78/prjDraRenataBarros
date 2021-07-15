@@ -63,9 +63,6 @@ public class AtendimentoController {
         String dataFormatada = formatter.format(localDate);
         atedimento.setDataPedido(dataFormatada);
 
-//        Especialidade especialidade = especialidadeService.find(idEspecialidade);
-//        atedimento.setEspecialidade(especialidade);
-
         atendimentoService.save(atedimento);
         ModelAndView andView = new ModelAndView("gerenciamento/gerenciamento-paciente");
         return andView;

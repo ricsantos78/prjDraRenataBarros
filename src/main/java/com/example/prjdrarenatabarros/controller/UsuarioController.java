@@ -5,10 +5,16 @@ import com.example.prjdrarenatabarros.domain.entity.Usuario;
 import com.example.prjdrarenatabarros.services.EspecialidadeService;
 import com.example.prjdrarenatabarros.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,11 +36,27 @@ public class UsuarioController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "**/salvarUsuario")
-    public ModelAndView salvar(Usuario usuario){
+    public ModelAndView salvar(@Valid Usuario usuario, BindingResult bindingResult){
+        List<String> msg = new ArrayList<>();
+        if(bindingResult.hasErrors()){
+            ModelAndView andView = new ModelAndView("cadastro/cadastro-usuario");
+            andView.addObject("usuarioObj", usuario);
+            andView.addObject("cargoTypes", CargoUsuario.values());
+
+
+            for (ObjectError objectError : bindingResult.getAllErrors()){
+                msg.add(objectError.getDefaultMessage()); //<--vem  getDefaultMessage vem das anotaçoes
+            }
+            andView.addObject("msgError", msg);
+            return andView;
+        }
+
+        usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
         usuarioService.save(usuario);
         ModelAndView andView = new ModelAndView("cadastro/cadastro-usuario");
         andView.addObject("usuarioObj", new Usuario());
         andView.addObject("cargoTypes", CargoUsuario.values());
+        andView.addObject("msgSucess","Usuario cadastrado com sucesso");
         return andView;
     }
 

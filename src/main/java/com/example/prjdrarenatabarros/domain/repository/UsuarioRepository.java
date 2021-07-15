@@ -19,4 +19,6 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
     @Query(value = "select * from Usuario where especialidade_id = ?1", nativeQuery = true)
     List<Usuario> findUsuarioByEspecialidade(@Param("id")Long id);
 
+    @Query("select u from Usuario u where u.login = ?1")
+    Usuario findUsuarioByLogin(String login);
 }

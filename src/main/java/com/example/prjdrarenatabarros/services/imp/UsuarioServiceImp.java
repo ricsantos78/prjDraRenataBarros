@@ -4,12 +4,15 @@ import com.example.prjdrarenatabarros.domain.entity.Usuario;
 import com.example.prjdrarenatabarros.domain.repository.UsuarioRepository;
 import com.example.prjdrarenatabarros.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UsuarioServiceImp implements UsuarioService {
+public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -42,5 +45,15 @@ public class UsuarioServiceImp implements UsuarioService {
     @Override
     public List<Usuario> findUsuarioByEspecialidade(Long id) {
         return usuarioRepository.findUsuarioByEspecialidade(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findUsuarioByLogin(s);
+
+        if(usuario == null){
+            throw new UsernameNotFoundException("Usuário não foi encontrado");
+        }
+        return usuario;
     }
 }

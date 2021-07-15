@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -37,4 +38,7 @@ public class Paciente implements Serializable {
 
     @Column(length = 15)
     private String telefone;
+
+    @OneToMany(mappedBy = "paciente", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Atendimento> atendimentos;
 }

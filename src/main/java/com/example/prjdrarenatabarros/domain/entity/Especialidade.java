@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +22,7 @@ public class Especialidade {
 
     @NotEmpty
     private String nome;
+
+    @OneToMany(mappedBy = "especialidade", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Usuario> usuarios;
 }
