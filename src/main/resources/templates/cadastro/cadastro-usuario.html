@@ -33,15 +33,10 @@
                                         <!-- INCLUIR DADOS DA TELA AQUI -->
 
                                         <div class="col-sm-12">
+                                            <!--/*@thymesVar id="msgError" type="java"*/-->
                                             <div th:if="${msgError} != null" class="col-sm-6">
                                                 <div class="alert alert-danger" role="alert"   th:each="m : ${msgError}">
                                                     <span th:text="${m}"></span>
-                                                </div>
-                                            </div>
-
-                                            <div th:if="${msgSucess} != null" class="col-sm-6">
-                                                <div class="alert alert-success" role="alert">
-                                                    <span th:text="${msgSucess}"></span>
                                                 </div>
                                             </div>
                                             <!-- Basic Form Inputs card start -->
@@ -65,45 +60,42 @@
 
                                                         <!--                                                            NOME USUARIO-->
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" >
+                                                            <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Nome do Usuario</label>
                                                         </div>
 
-                                                        <!--                                                            CARGO USUARIO-->
-                                                        <div class="form-group form-default">
-                                                            <select name="cargo" id="cargo" class="form-control" th:field="*{cargo}" onchange="validarForm()">
-                                                                <option th:each="cargoType : ${cargoTypes}"
-                                                                        th:text="${cargoType.cargo}"
-                                                                        th:value="${cargoType}"></option>
-                                                            </select>
-                                                            <span class="form-bar"></span>
-                                                            <label class="float-label" th:for="cargo">Cargo</label>
-                                                        </div>
 
                                                         <!--                                                            ESPECIALIDADE USUARIO-->
                                                         <div class="form-group form-default">
-                                                            <select name="especialidade" id="especialidade" class="form-control" th:field="*{especialidade}" hidden="hidden" disabled="disabled">
+                                                            <select name="especialidade" id="especialidade" class="form-control" th:field="*{especialidade}">
+                                                                <option value=""></option>
                                                                 <option th:each="especialidade: ${especialidades}"
                                                                         th:text="${especialidade.nome}"
                                                                         th:value="${especialidade.id}"></option>
                                                             </select>
                                                             <span class="form-bar"></span>
-                                                            <label class="float-label" hidden="hidden" id="especialidade2" th:for="especialidade">Especialidade</label>
+                                                            <label class="float-label" id="especialidade2" th:for="especialidade">Especialidade</label>
                                                         </div>
 
                                                         <!--                                                            LOGIN USUARIO-->
                                                         <div class="form-group form-default">
-                                                            <input type="text" name="login" id="login" class="form-control" autocomplete="off" >
+                                                            <input type="text" name="login" id="login" class="form-control" autocomplete="off" required>
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Login</label>
                                                         </div>
 
                                                         <!--                                                            SENHA USUARIO-->
                                                         <div class="form-group form-default">
-                                                            <input type="password" name="senha" id="senha" class="form-control" autocomplete="off" >
+                                                            <input type="password" name="senha" id="senha" class="form-control" autocomplete="off" required>
                                                             <span class="form-bar"></span>
                                                             <label class="float-label">Senha</label>
+                                                        </div>
+
+                                                        <div class="form-group form-default">
+                                                            <input type="password" name="confirma" class="form-control" autocomplete="off" required>
+                                                            <span class="form-bar"></span>
+                                                            <label class="float-label">Confirme Senha</label>
                                                         </div>
 
                                                         <!--                                                                BOTOES NOVO E SALVAR-->
@@ -138,19 +130,6 @@
         }
     }
 
-    function validarForm() {
-        var optionSelect = document.getElementById("cargo").value;
-
-        if(optionSelect =="COL" ){
-            document.getElementById("especialidade").disabled = false;
-            document.getElementById("especialidade").hidden = false;
-            document.getElementById("especialidade2").hidden = false;
-        }else{
-            document.getElementById("especialidade").disabled = true;
-            document.getElementById("especialidade").hidden = true;
-            document.getElementById("especialidade2").hidden = true;
-        }
-    }
 
     $(document).ready(function () {
         setTimeout(function () {
