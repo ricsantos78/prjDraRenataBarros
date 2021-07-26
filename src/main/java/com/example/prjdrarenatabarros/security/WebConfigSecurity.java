@@ -29,12 +29,15 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable() //desativa as configuraçoes padrao de momoria
                 .authorizeRequests() //permitir restrigir acesso
-                .antMatchers(HttpMethod.GET, "/").permitAll() // qualquer usuario acessa a pagina
+                .antMatchers(HttpMethod.GET, "/login").permitAll() // qualquer usuario acessa a pagina
+                .antMatchers(HttpMethod.GET, "/gerenciamento-usuario").hasAnyRole("ADMIN") // so usuarios adm pode acessar a pagina
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").permitAll()  //permite qualquer usuario
+                .and().formLogin().permitAll()  //permite qualquer usuario
+                .loginPage("/login").defaultSuccessUrl("/")
+                .failureUrl("/login?error=true")
                 .and().logout() //mapeia URL de logaout e invalida usuario autenticado
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/login?logout=true");
     }
 
     @Override // Cria autenticacao do usuario com banco de dados em memoria

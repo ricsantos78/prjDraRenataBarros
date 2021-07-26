@@ -4,14 +4,17 @@ import com.example.prjdrarenatabarros.domain.entity.Usuario;
 import com.example.prjdrarenatabarros.domain.repository.UsuarioRepository;
 import com.example.prjdrarenatabarros.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 
     @Autowired
@@ -48,12 +51,23 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
     }
 
     @Override
+    public Usuario findUsuarioByLogin(String login) {
+        return usuarioRepository.findUsuarioByLogin(login);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findUsuarioByLogin(s);
 
         if(usuario == null){
             throw new UsernameNotFoundException("Usuário não foi encontrado");
         }
-        return usuario;
+        return new User(usuario.getLogin(),
+                        usuario.getSenha(),
+                        usuario.isEnabled(),
+                        usuario.isAccountNonExpired(),
+                        usuario.isCredentialsNonExpired(),
+                        usuario.isAccountNonLocked(),
+                        usuario.getAuthorities());
     }
 }

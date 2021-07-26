@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints={@UniqueConstraint(columnNames={"cpf"})})
+@Table(name = "paciente",uniqueConstraints={@UniqueConstraint(columnNames={"cpf"})})
 public class Paciente implements Serializable {
 
     private static final long serrialVersionUID = 1L;
@@ -24,20 +25,37 @@ public class Paciente implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotEmpty
+    @NotNull(message = "Nome não pode ser nulo")
     private String nome;
 
-    @NotEmpty
+    @NotNull(message = "Cpf não pode ser nulo")
     @Column(length = 14)
-    @CPF
+    @CPF(message = "Cpf inválido")
     private String cpf;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 1)
     private SexoPaciente sexo;
 
+    @NotNull(message = "Telefone não pode ser nulo")
     @Column(length = 15)
     private String telefone;
+
+    private String cep;
+
+    private String rua;
+
+    private String numero;
+
+    private String complemento;
+
+    private String bairro;
+
+    private String cidade;
+
+    private String uf;
+
+    private String ibge;
 
     @OneToMany(mappedBy = "paciente", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Atendimento> atendimentos;

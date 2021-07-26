@@ -1,102 +1,264 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/header :: header"></head>
+<head th:replace="fragments/header :: header">
+</head>
 
-  <body>
-  <!-- Pre-loader start -->
-  <div th:replace="fragments/pre-load :: pre-load"></div>
-  <!-- Pre-loader end -->
-  <div id="pcoded" class="pcoded">
-      <div class="pcoded-overlay-box"></div>
-      <div class="pcoded-container navbar-wrapper">
+<body>
+<!-- Pre-loader start -->
+<div th:replace="fragments/pre-load :: pre-load"></div>
+<!-- Pre-loader end -->
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
 
         <nav th:replace="fragments/navbar :: navbar"></nav>
 
-          <div class="pcoded-main-container">
-              <div class="pcoded-wrapper">
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
 
-                 <nav th:replace="fragments/navbarmainmenu :: navbarmain"></nav>
+                <nav th:replace="fragments/navbarmainmenu :: navbarmain"></nav>
 
-                  <div class="pcoded-content">
-                      <!-- Page-header start -->
-                      <div th:replace="fragments/page-header :: pageheader"></div>
-                      <!-- Page-header end -->
-                        <div class="pcoded-inner-content">
-                            <!-- Main-body start -->
-                            <div class="main-body">
-                                <div class="page-wrapper">
-                                    <!-- Page-body start -->
-                                    <div class="page-body">
-                                            <!-- INCLUIR DADOS DA TELA AQUI -->
-                                            <!-- Basic table card start -->
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5>Basic Table</h5>
-                                                    <span>use class <code>table</code> inside table element</span>
-                                                    <div class="p-15 p-b-0">
-                                                        <form class="form-material" action="pesquisar-usuario" method="post">
-                                                            <div class="form-group form-primary">
-                                                                <input type="text" name="usuarioPesquisar" class="form-control" required="">
-                                                                <span class="form-bar"></span>
-                                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Pesquisar Usuario</label>
-                                                                <br/>
-                                                                <button class="btn btn-primary waves-effect waves-light">Buscar</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="card-header-right">
-                                                        <ul class="list-unstyled card-option">
-                                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                                            <li><i class="fa fa-window-maximize full-card"></i></li>
-                                                            <li><i class="fa fa-minus minimize-card"></i></li>
-                                                            <li><i class="fa fa-refresh reload-card"></i></li>
-                                                            <li><i class="fa fa-trash close-card"></i></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="card-block table-border-style">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead>
-                                                            <tr>
-                                                                <th>Nome</th>
-                                                                <th>Cargo</th>
-                                                                <th>Login</th>
-                                                                <th></th>
-                                                                <th></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr th:each = "usuario : ${usuarios}">
-                                                                <td th:text = "${usuario.nome}"></td>
-                                                                <td th:text = "${usuario.cargo.cargo}"></td>
-                                                                <td th:text = "${usuario.login}"></td>
-                                                                <td><a th:href="@{/editar-usuario/{idusuario}(idusuario=${usuario.id})}" class="btn btn-warning waves-effect waves-light">Editar</a></td>
-                                                                <td><a th:href="@{/excluir-usuario/{idusuario}(idusuario=${usuario.id})}"class="btn btn-danger waves-effect waves-light">Excluir</a></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
+                <div class="pcoded-content">
+                    <!-- Page-header start -->
+                    <div th:replace="fragments/page-header :: pageheader"></div>
+                    <!-- Page-header end -->
+                    <div class="pcoded-inner-content">
+                        <!-- Main-body start -->
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page-body start -->
+                                <div class="page-body">
+                                    <!-- INCLUIR DADOS DA TELA AQUI -->
+                                    <!-- Basic table card start -->
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="table-card">
+                                                <div class="row col-sm-12">
+                                                    <div class="col-sm-6">
+                                                        <h5>Gerenciamento De Usuarios</h5>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Basic table card end -->
-                                            <!-- FIM  INCLUSAO DADOS DA TELA -->
+
+                                            <div class="p-15 p-b-0">
+                                                <form class="form-material" action="pesquisar-usuario" method="post">
+                                                    <div class="form-group form-primary">
+                                                        <input type="text" name="usuarioPesquisar" class="form-control" required="">
+                                                        <span class="form-bar"></span>
+                                                        <label class="float-label"><i class="fa fa-search m-r-10"></i>Pesquisar Usuario</label>
+                                                        <br/>
+                                                        <button class="btn btn-primary waves-effect waves-light">Buscar</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="card-header-right">
+                                                <ul class="list-unstyled card-option">
+                                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                                    <li><i class="fa fa-trash close-card"></i></li>
+                                                </ul>
+                                            </div>
 
 
+
+                                        </div>
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+
+                                                <!--/*@thymesVar id="msgSucess" type="java"*/-->
+                                                <div th:if="${msgSucess} != null" class="col-sm-8">
+                                                    <div class="alert alert-success" role="alert">
+                                                        <span th:text="${msgSucess}"></span>
+                                                    </div>
+                                                </div>
+                                                <!--/*@thymesVar id="msgError" type="java"*/-->
+                                                <div th:if="${msgError} != null" class="col-sm-8">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        <span th:text="${msgError}"></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="p-15 p-b-0">
+                                                    <div class="form-group form-primary">
+                                                        <br/>
+                                                        <a href="/cadastro-usuario"> <button class="btn waves-effect waves-light btn-success"><i class="icofont icofont-ui-add"></i></i>Novo Usuario</button></a>
+                                                    </div>
+                                                </div>
+
+
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Nome</th>
+                                                        <!--                                                                <th>Cargo</th>-->
+                                                        <th>Login</th>
+                                                        <th>Ações</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each = "usuario : ${usuarios}">
+
+                                                        <td th:text = "${usuario.nome}"></td>
+                                                        <!--                                                                <td th:text = "${usuario.cargo.cargo}"></td>-->
+                                                        <td th:text = "${usuario.login}"></td>
+                                                        <td>
+                                                            <a data-toggle="modal" href="#addCargo" data-target="#modal-addCargo" th:attr="data-target='#modal-addCargo'+${usuario.id }"><i class="material-icons" data-toggle="tooltip" title="Add Cargo">&#xEA3D;</i></a>
+                                                            <a class="edit" href="#editUsuario" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                                            <a data-toggle="modal" href="#deleteUsuario" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${usuario.id }"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                                            <input type="hidden" id="id" th:value="${usuario.id}">
+
+                                                            <!-- Add Cargo HTML -->
+                                                            <div class="modal fade in" id="addCargo" th:id="modal-addCargo+${usuario.id}">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <form th:action="@{/role-usuario/{idUsuario}(idUsuario=${usuario.id})}" method="post">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title">Edit Employee</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-2 col-form-label">Cargo:</label>
+                                                                                    <div class="col-sm-10">
+                                                                                        <select name="role" class="form-control role" id="roles" onchange="validarForm()">
+                                                                                            <option></option>
+                                                                                            <option th:each="cargoType : ${cargoTypes}"
+                                                                                                    th:text="${cargoType.descricao}"
+                                                                                                    th:value="${cargoType.id}"></option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                                                <input type="submit" class="btn btn-success" value="Save">
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Edit Modal HTML -->
+                                                            <div id="editUsuario" class="modal fade">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <form action="salvar-usuario-editado" method="post">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title">Edit Employee</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-2 col-form-label" hidden="hidden">Id:</label>
+                                                                                    <div class="col-sm-10">
+                                                                                        <input type="text" name="id" id="idEdit" class="form-control" autocomplete="off" hidden="hidden" required>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-2 col-form-label">Name:</label>
+                                                                                    <div class="col-sm-10">
+                                                                                        <input type="text" name="nome" id="nomeEdit" class="form-control" autocomplete="off" required>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group row">
+                                                                                    <label class="col-sm-2 col-form-label">Login:</label>
+                                                                                    <div class="col-sm-10">
+                                                                                        <input type="text" name="login" id="loginEdit" class="form-control" autocomplete="off" required>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="form-group row" >
+                                                                                    <label class="col-sm-2 col-form-label" hidden="hidden">Senha:</label>
+                                                                                    <div class="col-sm-10">
+                                                                                        <input type="password" name="senha" id="senhaEdit" class="form-control" autocomplete="off" hidden="hidden">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                                                                <input type="submit" class="btn btn-success" value="Save">
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Delete Modal HTML -->
+                                                            <div class="modal modal-warning fade in" id="deleteUsuario" th:id="modal-warning+${usuario.id}">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h4 class="modal-title">Excluir Usuario</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <p>Tem certeza que deseja deletar este registro?</p>
+                                                                                <p class="text-danger"><small>Essa ação não pode ser desfeita.</small></p>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <input type="button" class="btn btn-default" data-dismiss="modal" value="Voltar">
+                                                                                <a type="button" th:href="@{/excluir-usuario/{idusuario}(idusuario=${usuario.id})}"><input type="button" class="btn btn-danger" value="Excluir"> </a>
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td></tr>
+
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <!-- Page-body end -->
+                                    <!-- Basic table card end -->
+                                    <!-- FIM  INCLUSAO DADOS DA TELA -->
+
                                 </div>
-                                <div id="styleSelector"> </div>
+                                <!-- Page-body end -->
                             </div>
+                            <div id="styleSelector"> </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-  <div th:replace="fragments/javascriptfile :: javascriptfile"></div>
+<div th:replace="fragments/javascriptfile :: javascriptfile"></div>
+<script type="text/javascript">
+    $('table .edit').on('click', function () {
+        var id = $(this).parent().find('#id').val();
+        $.ajax({
+            type: 'GET',
+            url: '/api/usuario/find/' +id,
+            success: function (usuario) {
+                $('#editUsuario #idEdit').val(usuario.id)
+                $('#editUsuario #nomeEdit').val(usuario.nome)
+                $('#editUsuario #loginEdit').val(usuario.login)
+                $('#editUsuario #senhaEdit').val(usuario.senha)
+
+            }
+        })
+    })
+
+
+
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $(".alert").fadeOut("slow", function () {
+                $(this).alert('close');
+            })
+        }, 5000);
+    })
+
+</script>
 </body>
 
 </html>

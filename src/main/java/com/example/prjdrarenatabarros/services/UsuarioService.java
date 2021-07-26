@@ -12,5 +12,6 @@ public interface UsuarioService {
     public void delete(Long id);
     public Iterable<Usuario> findUsuarioByName(String nome);
     public List<Usuario> findUsuarioByEspecialidade(Long id);
+    public Usuario findUsuarioByLogin(String login);
 
 }

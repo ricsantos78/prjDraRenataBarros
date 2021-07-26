@@ -37,5 +37,10 @@ public class PacienteServiceImp implements PacienteService {
         return pacienteRepository.findPacienteByName(nome);
     }
 
+    @Override
+    public Paciente findPacienteByCpf(String cpf) {
+        return pacienteRepository.findPacienteByCpf(cpf);
+    }
+
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <nav th:fragment="navbarmain" class="pcoded-navbar">
     <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
     <div class="pcoded-inner-navbar main-menu">
@@ -37,7 +37,7 @@
                 </a>
 
                 <ul class="pcoded-submenu">
-                    <li class="pcoded-hasmenu ">
+                    <li class="pcoded-hasmenu " sec:authorize="hasRole('ROLE_ADMIN')">
                         <a href="javascript:void(0)" class="waves-effect waves-dark">
                             <span class="pcoded-micon"><i class="ti-direction-alt"></i></span>
                             <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.main">Usuario</span>
@@ -45,11 +45,6 @@
                         </a>
                         <ul class="pcoded-submenu">
                             <li class="">
-                                <a href="/cadastro-usuario" class="waves-effect waves-dark">
-                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                    <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Cadastro</span>
-                                    <span class="pcoded-mcaret"></span>
-                                </a>
                                 <a href="/gerenciamento-usuario" class="waves-effect waves-dark">
                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                     <span class="pcoded-mtext" data-i18n="nav.menu-levels.menu-level-22.menu-level-31">Gerenciamento</span>

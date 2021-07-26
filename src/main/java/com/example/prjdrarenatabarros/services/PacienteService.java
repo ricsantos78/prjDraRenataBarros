@@ -9,5 +9,6 @@ public interface PacienteService {
     public Paciente save(Paciente s);
     public void delete(Long id);
     public Iterable<Paciente> findPacienteByName(String nome);
+    public Paciente findPacienteByCpf(String cpf);
 
 }

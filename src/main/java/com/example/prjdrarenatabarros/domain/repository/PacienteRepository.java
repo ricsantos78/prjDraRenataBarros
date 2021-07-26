@@ -14,4 +14,7 @@ public interface PacienteRepository extends CrudRepository<Paciente, Long> {
 
     @Query("select u from Paciente u where u.nome like %?1%")
     List<Paciente> findPacienteByName(String nome);
+
+    @Query("select u from Paciente u where u.cpf = ?1")
+    Paciente findPacienteByCpf(String cpf);
 }

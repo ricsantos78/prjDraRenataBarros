@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "atendimento")
-public class Atendimento implements Serializable {
+@Entity
+@Table(name = "usuario_role")
+public class UsuarioRole implements Serializable {
 
     private static final long serrialVersionUID = 1L;
 
@@ -26,9 +25,6 @@ public class Atendimento implements Serializable {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "paciente_id")
-    private Paciente paciente;
-
-    @Column(name = "data_atendimento")
-    private String dataPedido;
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
