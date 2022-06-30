@@ -3,22 +3,22 @@ package com.example.prjdrarenatabarros.services.imp;
 import com.example.prjdrarenatabarros.domain.entity.Usuario;
 import com.example.prjdrarenatabarros.domain.repository.UsuarioRepository;
 import com.example.prjdrarenatabarros.services.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
-@Transactional
+@RequiredArgsConstructor
 public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     public Iterable<Usuario> findAll() {
@@ -26,8 +26,8 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
     }
 
     @Override
-    public Usuario find(Long id) {
-        return  usuarioRepository.findById(id).get();
+    public Usuario find(UUID id) {
+        return  usuarioRepository.findById(id).isPresent() ? usuarioRepository.findById(id).get() : null;
     }
 
     @Override
@@ -36,18 +36,18 @@ public class UsuarioServiceImp implements UsuarioService, UserDetailsService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
          usuarioRepository.deleteById(id);
     }
 
     @Override
-    public Iterable<Usuario> findUsuarioByName(String nome) {
-        return usuarioRepository.findUsuarioByName(nome);
+    public Optional<Usuario> findUsuarioByNome(String nome) {
+        return usuarioRepository.findUsuarioByNome(nome);
     }
 
     @Override
-    public List<Usuario> findUsuarioByEspecialidade(Long id) {
-        return usuarioRepository.findUsuarioByEspecialidade(id);
+    public Optional<Usuario> findUsuarioByEspecialidadeId(UUID id) {
+        return usuarioRepository.findUsuarioByEspecialidadeId(id);
     }
 
     @Override

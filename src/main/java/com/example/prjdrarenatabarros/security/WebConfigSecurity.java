@@ -19,10 +19,6 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private UsuarioServiceImp usuarioServiceImp;
 
-//    @Bean
-//    public static BCryptPasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
 
     @Override // configura as solcitaçoes de acesso por http
     protected void configure(HttpSecurity http) throws Exception {

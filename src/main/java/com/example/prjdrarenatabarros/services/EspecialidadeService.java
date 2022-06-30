@@ -2,12 +2,14 @@ package com.example.prjdrarenatabarros.services;
 
 import com.example.prjdrarenatabarros.domain.entity.Especialidade;
 
+import java.util.UUID;
+
 public interface EspecialidadeService {
 
-    public Iterable<Especialidade> findAll();
-    public Especialidade find(Long id);
-    public Especialidade save(Especialidade s);
-    public void delete(Long id);
-    public Iterable<Especialidade> findEspecialidadeByName(String nome);
+    Iterable<Especialidade> findAll();
+    Especialidade find(UUID id);
+    Especialidade save(Especialidade s);
+    void delete(UUID id);
+    Iterable<Especialidade> findEspecialidadeByNome(String nome);
 
 }

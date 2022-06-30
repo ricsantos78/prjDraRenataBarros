@@ -8,30 +8,30 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "servico")
+@Table(name = "TB_SERVICE")
 public class Servico implements Serializable {
 
-    private static final long serrialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
-    @NotEmpty(message = "Senha não pode ser vazio")
-    @NotNull(message = "Senha não pode ser nulo")
+    @Column(name = "name", unique = true)
     private String nome;
 
-    @NotEmpty(message = "Senha não pode ser vazio")
-    @NotNull(message = "Senha não pode ser nulo")
+    @Column(name = "value")
     private String valor;
 
     @ManyToOne
     @JoinColumn(name = "especialidade_id")
+    @Column(name = "specialty_id")
     private Especialidade especialidade;
 
 }

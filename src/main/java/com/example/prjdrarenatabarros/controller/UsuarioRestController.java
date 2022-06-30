@@ -4,40 +4,39 @@ import com.example.prjdrarenatabarros.domain.entity.Paciente;
 import com.example.prjdrarenatabarros.domain.entity.Usuario;
 import com.example.prjdrarenatabarros.services.PacienteService;
 import com.example.prjdrarenatabarros.services.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping(value = "api/usuario")
 public class UsuarioRestController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
-    @Autowired
-    private PacienteService pacienteService;
+    private final PacienteService pacienteService;
 
-    @RequestMapping(value = "find/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Usuario> find(@PathVariable("id") Long id){
+    @GetMapping(value = "find/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Usuario> find(@PathVariable("id") UUID id){
         try{
-            return new ResponseEntity<Usuario>(usuarioService.find(id), HttpStatus.OK);
+            return new ResponseEntity<>(usuarioService.find(id), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<Usuario>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "findPaciente/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Paciente> findPaciente(@PathVariable("id") Long id){
+    @GetMapping(value = "findPaciente/{id}", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Paciente> findPaciente(@PathVariable("id") UUID id){
         try{
-            return new ResponseEntity<Paciente>(pacienteService.find(id), HttpStatus.OK);
+            return new ResponseEntity<>(pacienteService.find(id), HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity<Paciente>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }

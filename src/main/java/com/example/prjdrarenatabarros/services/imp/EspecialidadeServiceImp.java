@@ -3,14 +3,16 @@ package com.example.prjdrarenatabarros.services.imp;
 import com.example.prjdrarenatabarros.domain.entity.Especialidade;
 import com.example.prjdrarenatabarros.domain.repository.EspecialidadeRepository;
 import com.example.prjdrarenatabarros.services.EspecialidadeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
+@RequiredArgsConstructor
 public class EspecialidadeServiceImp implements EspecialidadeService {
 
-    @Autowired
-    private EspecialidadeRepository especialidadeRepository;
+    private final EspecialidadeRepository especialidadeRepository;
 
     @Override
     public Iterable<Especialidade> findAll() {
@@ -18,8 +20,8 @@ public class EspecialidadeServiceImp implements EspecialidadeService {
     }
 
     @Override
-    public Especialidade find(Long id) {
-        return especialidadeRepository.findById(id).get();
+    public Especialidade find(UUID id) {
+        return especialidadeRepository.findById(id).isPresent() ? especialidadeRepository.findById(id).get() : null;
     }
 
     @Override
@@ -28,12 +30,12 @@ public class EspecialidadeServiceImp implements EspecialidadeService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
         especialidadeRepository.deleteById(id);
     }
 
     @Override
-    public Iterable<Especialidade> findEspecialidadeByName(String nome) {
-        return especialidadeRepository.findEspecialidadeByName(nome);
+    public Iterable<Especialidade> findEspecialidadeByNome(String nome) {
+        return especialidadeRepository.findEspecialidadeByNome(nome);
     }
 }

@@ -2,24 +2,20 @@ package com.example.prjdrarenatabarros.domain.repository;
 
 
 import com.example.prjdrarenatabarros.domain.entity.Usuario;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-@Transactional
-public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
-    @Query("select u from Usuario u where u.nome like %?1%")
-    List<Usuario> findUsuarioByName(String nome);
+public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
-    @Query(value = "select * from Usuario where especialidade_id = ?1", nativeQuery = true)
-    List<Usuario> findUsuarioByEspecialidade(@Param("id")Long id);
-
-    @Query("select u from Usuario u where u.login = ?1")
+    Optional<Usuario> findUsuarioByNome(String nome);
+    Optional<Usuario> findUsuarioByEspecialidadeId(@Param("id") UUID id);
     Usuario findUsuarioByLogin(String login);
+
+
 
 }

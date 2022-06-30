@@ -12,45 +12,44 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usuario",uniqueConstraints={@UniqueConstraint(columnNames={"login"})})
+@Table(name = "TB_USER")
 public class Usuario implements Serializable, UserDetails {
-    private static final long serrialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
 
-    @NotNull(message = "Nome não pode ser nulo")
+    @Column(name = "name")
     private String nome;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_role",
-                joinColumns = @JoinColumn(name = "usuario_id",
-                referencedColumnName = "id",
-                table = "usuario"),//cria tabela de acesso do usuario
-                inverseJoinColumns = @JoinColumn(name = "role_id",
-                referencedColumnName = "id",
-                table = "role"))
-    private List<Role>roles;
+    @JoinTable(name = "TB_USER_ROLE",
+            joinColumns = @JoinColumn(name = "user_id",
+                    referencedColumnName = "id",
+                    table = "TB_USER"),//cria tabela de acesso do usuario
+            inverseJoinColumns = @JoinColumn(name = "role_id",
+                    referencedColumnName = "id",
+                    table = "TB_ROLE"))
+    private List<Role> roles;
 
 
-    @NotNull(message = "Login não pode ser nulo")
-    @Size(min = 5, max = 30, message = "Usuario deve conter entre 5 a 30 caracteres")
-    @Column()
+    @Column(name = "login", unique = true)
     private String login;
 
-
-    @NotNull(message = "Senha não pode ser nulo")
+    @Column(name = "password")
     private String senha;
 
     @ManyToOne
     @JoinColumn(name = "especialidade_id")
+    @Column(name = "specialty_id")
     private Especialidade especialidade;
 
     @OneToMany(mappedBy = "usuario")

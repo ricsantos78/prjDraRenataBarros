@@ -11,34 +11,33 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "paciente",uniqueConstraints={@UniqueConstraint(columnNames={"cpf"})})
+@Table(name = "TB_PATIENT")
 public class Paciente implements Serializable {
 
-    private static final long serrialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
-    @NotNull(message = "Nome não pode ser nulo")
+    @Column(name = "name", length = 130)
     private String nome;
 
-    @NotNull(message = "Cpf não pode ser nulo")
-    @Column(length = 14)
-    @CPF(message = "Cpf inválido")
+
+    @Column(unique = true, length = 14)
     private String cpf;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 1)
+    @Column(name = "gender", length = 1)
     private SexoPaciente sexo;
 
-    @NotNull(message = "Telefone não pode ser nulo")
-    @Column(length = 15)
+    @Column(name = "phone",length = 15)
     private String telefone;
 
     private String cep;

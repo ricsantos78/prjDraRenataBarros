@@ -1,29 +1,29 @@
 package com.example.prjdrarenatabarros.services.imp;
 
 import com.example.prjdrarenatabarros.domain.entity.Atendimento;
-import com.example.prjdrarenatabarros.domain.entity.Especialidade;
 import com.example.prjdrarenatabarros.domain.repository.AtendimentoRepository;
-import com.example.prjdrarenatabarros.domain.repository.EspecialidadeRepository;
 import com.example.prjdrarenatabarros.services.AtendimentoService;
-import com.example.prjdrarenatabarros.services.EspecialidadeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AtendimentoServiceImp implements AtendimentoService {
 
-    @Autowired
-    private AtendimentoRepository atendimentoRepository;
-
+    private final AtendimentoRepository atendimentoRepository;
 
     @Override
-    public Iterable<Atendimento> findAll() {
+    public List<Atendimento> findAll() {
         return atendimentoRepository.findAll();
     }
 
     @Override
-    public Atendimento find(Long id) {
-        return atendimentoRepository.findById(id).get();
+    public Atendimento findById(UUID id) {
+        return atendimentoRepository.findById(id).isPresent() ? atendimentoRepository.findById(id).get() : null;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class AtendimentoServiceImp implements AtendimentoService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
         atendimentoRepository.deleteById(id);
     }
 }

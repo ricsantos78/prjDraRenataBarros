@@ -2,16 +2,17 @@ package com.example.prjdrarenatabarros.services;
 
 import com.example.prjdrarenatabarros.domain.entity.Usuario;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface UsuarioService {
 
-    public Iterable<Usuario> findAll();
-    public Usuario find(Long id);
-    public Usuario save(Usuario s);
-    public void delete(Long id);
-    public Iterable<Usuario> findUsuarioByName(String nome);
-    public List<Usuario> findUsuarioByEspecialidade(Long id);
-    public Usuario findUsuarioByLogin(String login);
+    Iterable<Usuario> findAll();
+    Usuario find(UUID id);
+    Usuario save(Usuario s);
+    void delete(UUID id);
+    Optional<Usuario> findUsuarioByNome(String nome);
+    Optional<Usuario> findUsuarioByEspecialidadeId(UUID id);
+    Usuario findUsuarioByLogin(String login);
 
 }

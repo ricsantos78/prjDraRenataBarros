@@ -6,173 +6,214 @@ import com.example.prjdrarenatabarros.services.EspecialidadeService;
 import com.example.prjdrarenatabarros.services.RoleService;
 import com.example.prjdrarenatabarros.services.UsuarioRoleService;
 import com.example.prjdrarenatabarros.services.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
-    @Autowired
-    private EspecialidadeService especialidadeService;
+    private final EspecialidadeService especialidadeService;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    @Autowired
-    private UsuarioRoleService usuarioRoleService;
-
-
-    @RequestMapping(method = RequestMethod.GET, value = "cadastro-usuario")
-    public String cadastroUsuario(ModelMap andView){
-        andView.addAttribute("usuarioObj", new Usuario());
-        andView.addAttribute("especialidades", especialidadeService.findAll());
+    private final UsuarioRoleService usuarioRoleService;
+    
+    @GetMapping(value = "cadastro-usuario")
+    public String cadastroUsuario(ModelMap andView) {
+        andView.addAttribute(getUsuarioObj(), new Usuario());
+        andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
         return "cadastro/cadastro-usuario";
     }
-
-    @RequestMapping(method = RequestMethod.POST, value = "**/salvarUsuario")
-    public String salvar(@Valid Usuario usuario, BindingResult bindingResult, @RequestParam("confirma")String senha, Model andView, RedirectAttributes attr){
+    
+    @PostMapping(value = "**/salvarUsuario")
+    public String salvar(@Valid Usuario usuario, BindingResult bindingResult, @RequestParam("confirma") String senha, Model andView, RedirectAttributes attr) {
         Usuario log = usuarioService.findUsuarioByLogin(usuario.getLogin());
         List<String> msg = new ArrayList<>();
-        if(log != null){
-            andView.addAttribute("usuarioObj", usuario);
-            andView.addAttribute("especialidades", especialidadeService.findAll());
-            attr.addFlashAttribute("msgError", "Usuario já existe");
-            return "redirect:/cadastro-usuario";
+        if (log != null) {
+            andView.addAttribute(getUsuarioObj(), usuario);
+            andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+            attr.addFlashAttribute(getMsgError(), "Usuario já existe");
+            return getRedirectCadUsuario();
 
         }
-        if(!(usuario.getSenha().equals(senha))){
-            andView.addAttribute("usuarioObj", usuario);
-            andView.addAttribute("especialidades", especialidadeService.findAll());
-            attr.addFlashAttribute("msgError", "As senhas devem ser identicas!");
-            return "redirect:/cadastro-usuario";
+        if (!(usuario.getSenha().equals(senha))) {
+            andView.addAttribute(getUsuarioObj(), usuario);
+            andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+            attr.addFlashAttribute(getMsgError(), "As senhas devem ser identicas!");
+            return getRedirectCadUsuario();
 
         }
-            if(bindingResult.hasErrors()){
-                andView.addAttribute("usuarioObj", usuario);
-                andView.addAttribute("especialidades", especialidadeService.findAll());
+        if (bindingResult.hasErrors()) {
+            andView.addAttribute(getUsuarioObj(), usuario);
+            andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
 
-                for (ObjectError objectError : bindingResult.getAllErrors()){
-                    msg.add(objectError.getDefaultMessage()); //<--vem  getDefaultMessage vem das anotaçoes
-                }
-                attr.addFlashAttribute("msgError", msg);
-                return "redirect:/cadastro-usuario";
+            for (ObjectError objectError : bindingResult.getAllErrors()) {
+                msg.add(objectError.getDefaultMessage()); //<--vem  getDefaultMessage vem das anotaçoes
             }
+            attr.addFlashAttribute(getMsgError(), msg);
+            return getRedirectCadUsuario();
+        }
 
         usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
         usuarioService.save(usuario);
         Iterable<Usuario> usuarioIt = usuarioService.findAll();
-        andView.addAttribute("usuarios", usuarioIt);
-        andView.addAttribute("cargoTypes", roleService.findAll());
-        andView.addAttribute("especialidades", especialidadeService.findAll());
-        attr.addFlashAttribute("msgSucess","Usuario cadastrado com sucesso");
-        return "redirect:/gerenciamento-usuario";
+        andView.addAttribute(getUsuarios(), usuarioIt);
+        andView.addAttribute(getCargoTypes(), roleService.findAll());
+        andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+        attr.addFlashAttribute(getMsgSucess(), "Usuario cadastrado com sucesso");
+        return getRedirectGerUsuario();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "gerenciamento-usuario")
-    public String usuarios(ModelMap andView){
+    @GetMapping(value = "gerenciamento-usuario")
+    public String usuarios(ModelMap andView) {
         Iterable<Usuario> usuarioIt = usuarioService.findAll();
-        andView.addAttribute("usuarios", usuarioIt);
-        andView.addAttribute("cargoTypes", roleService.findAll());
-        andView.addAttribute("especialidades", especialidadeService.findAll());
+        andView.addAttribute(getUsuarios(), usuarioIt);
+        andView.addAttribute(getCargoTypes(), roleService.findAll());
+        andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
         return "gerenciamento/gerenciamento-usuario";
     }
 
     @PostMapping(value = "**/salvar-usuario-editado")
-    public String salvarEdit(@Valid Usuario usuario, BindingResult bindingResult,Model andView, RedirectAttributes attr){
+    public String salvarEdit(@Valid Usuario usuario, BindingResult bindingResult, Model andView, RedirectAttributes attr) {
         List<String> msg = new ArrayList<>();
         Usuario log = usuarioService.findUsuarioByLogin(usuario.getLogin());
 
-        if(log != null){
+        if (log != null) {
             Iterable<Usuario> usuarioIt = usuarioService.findAll();
-            andView.addAttribute("usuarios", usuarioIt);
-            andView.addAttribute("cargoTypes", roleService.findAll());
-            andView.addAttribute("especialidades", especialidadeService.findAll());
-            attr.addFlashAttribute("msgError", "Não houve alteração, Usuario já existe");
-            return "redirect:/gerenciamento-usuario";
+            andView.addAttribute(getUsuarios(), usuarioIt);
+            andView.addAttribute(getCargoTypes(), roleService.findAll());
+            andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+            attr.addFlashAttribute(getMsgError(), "Não houve alteração, Usuario já existe");
+            return getRedirectGerUsuario();
         }
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             Iterable<Usuario> usuarioIt = usuarioService.findAll();
-            andView.addAttribute("usuarios", usuarioIt);
-            andView.addAttribute("cargoTypes", roleService.findAll());
-            andView.addAttribute("especialidades", especialidadeService.findAll());
-            for (ObjectError objectError : bindingResult.getAllErrors()){
+            andView.addAttribute(getUsuarios(), usuarioIt);
+            andView.addAttribute(getCargoTypes(), roleService.findAll());
+            andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+            for (ObjectError objectError : bindingResult.getAllErrors()) {
                 msg.add(objectError.getDefaultMessage()); //<--vem  getDefaultMessage vem das anotaçoes
             }
-            attr.addFlashAttribute("msgError", msg);
-            return "redirect:/gerenciamento-usuario";
+            attr.addFlashAttribute(getMsgError(), msg);
+            return getRedirectGerUsuario();
         }
 
         usuarioService.save(usuario);
         Iterable<Usuario> usuarioIt = usuarioService.findAll();
-        andView.addAttribute("usuarios", usuarioIt);
-        andView.addAttribute("cargoTypes", roleService.findAll());
-        andView.addAttribute("especialidades", especialidadeService.findAll());
-        attr.addFlashAttribute("msgSucess","Usuario editado com sucesso");
-        return "redirect:/gerenciamento-usuario";
+        andView.addAttribute(getUsuarios(), usuarioIt);
+        andView.addAttribute(getCargoTypes(), roleService.findAll());
+        andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+        attr.addFlashAttribute(getMsgSucess(), "Usuario editado com sucesso");
+        return getRedirectGerUsuario();
     }
 
     @GetMapping("/excluir-usuario/{idusuario}") //recebendo o parametro da url com o idusuario
-    public String excluirusuario(@PathVariable("idusuario")Long idusuario, RedirectAttributes attr){ //pegando a vareavel, "idusuario" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
+    public String excluirusuario(@PathVariable("idusuario") UUID idusuario, RedirectAttributes attr) { //pegando a vareavel, "idusuario" esta pegando na URL e depois passa o tipo de dados igual ao objeto id do usuario
 
         usuarioService.delete(idusuario);
 
-        attr.addFlashAttribute("usuarios", usuarioService.findAll());
-        attr.addFlashAttribute("cargoTypes", roleService.findAll());
-        attr.addFlashAttribute("especialidades", especialidadeService.findAll());
-        attr.addFlashAttribute("msgSucess", "Usuario excluido com sucesso");
+        attr.addFlashAttribute(getUsuarios(), usuarioService.findAll());
+        attr.addFlashAttribute(getCargoTypes(), roleService.findAll());
+        attr.addFlashAttribute(getEspecialidades(), especialidadeService.findAll());
+        attr.addFlashAttribute(getMsgSucess(), "Usuario excluido com sucesso");
 
-        return "redirect:/gerenciamento-usuario";
+        return getRedirectGerUsuario();
     }
 
     @PostMapping("**/pesquisar-usuario")
-    public String pesquisar(ModelMap andView,@RequestParam("usuarioPesquisar")String usuarioPesquisar){
+    public String pesquisar(ModelMap andView, @RequestParam("usuarioPesquisar") String usuarioPesquisar) {
 
-        andView.addAttribute("usuarios", usuarioService.findUsuarioByName(usuarioPesquisar));
-        andView.addAttribute("cargoTypes", roleService.findAll());
-        andView.addAttribute("especialidades", especialidadeService.findAll());
+        andView.addAttribute(getUsuarios(), usuarioService.findUsuarioByNome(usuarioPesquisar));
+        andView.addAttribute(getCargoTypes(), roleService.findAll());
+        andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
 
         return "gerenciamento/gerenciamento-usuario";
     }
 
     @PostMapping(value = "**/role-usuario/{idUsuario}")
     public String salvar(UsuarioRole usuarioRole,
-                               @PathVariable("idUsuario") Long idu,
-                               @RequestParam("role") Long idr, Model andView, RedirectAttributes attr){
+                         @PathVariable("idUsuario") UUID idu,
+                         @RequestParam("role") UUID idr, Model andView, RedirectAttributes attr) {
 
         Usuario usuario = usuarioService.find(idu);
         usuarioRole.setUsuario(usuario);
 
-        UsuarioRole log = usuarioRoleService.findUsuarioRole(usuario.getId(),idr);  //usuarioService.findUsuarioByLogin(usuario.getLogin());
+        UsuarioRole log = usuarioRoleService.findUsuarioRole(usuario.getId(), idr);
 
-        if(log != null){
+        if (log != null) {
             Iterable<Usuario> usuarioIt = usuarioService.findAll();
-            andView.addAttribute("usuarios", usuarioIt);
-            andView.addAttribute("cargoTypes", roleService.findAll());
-            andView.addAttribute("especialidades", especialidadeService.findAll());
-            attr.addFlashAttribute("msgError", "Já existe o cargo " +usuarioRole.getRole().getDescricao()+ " para o Usuario "+usuarioRole.getUsuario().getNome()+"!");
-            return "redirect:/gerenciamento-usuario";
+            andView.addAttribute(getUsuarios(), usuarioIt);
+            andView.addAttribute(getCargoTypes(), roleService.findAll());
+            andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+            attr.addFlashAttribute(getMsgError(), "Já existe o cargo " + usuarioRole.getRole().getDescricao() + " para o Usuario " + usuarioRole.getUsuario().getNome() + "!");
+            return getRedirectGerUsuario();
         }
 
         usuarioRoleService.save(usuarioRole);
         Iterable<Usuario> usuarioIt = usuarioService.findAll();
-        andView.addAttribute("usuarios", usuarioIt);
-        andView.addAttribute("cargoTypes", roleService.findAll());
-        andView.addAttribute("especialidades", especialidadeService.findAll());
-        attr.addFlashAttribute("msgSucess", "Cargo " +usuarioRole.getRole().getDescricao()+ " atribuido para o Usuario "+usuarioRole.getUsuario().getNome()+" com sucesso!");
+        andView.addAttribute(getUsuarios(), usuarioIt);
+        andView.addAttribute(getCargoTypes(), roleService.findAll());
+        andView.addAttribute(getEspecialidades(), especialidadeService.findAll());
+        attr.addFlashAttribute(getMsgSucess(), "Cargo " + usuarioRole.getRole().getDescricao() + " atribuido para o Usuario " + usuarioRole.getUsuario().getNome() + " com sucesso!");
+        return getRedirectGerUsuario();
+    }
+    
+    @NotNull
+    private String getEspecialidades() {
+        return "especialidades";
+    }
+
+    @NotNull
+    private String getUsuarioObj() {
+        return "usuarioObj";
+    }
+
+    @NotNull
+    private String getMsgError() {
+        return "msgError";
+    }
+
+    @NotNull
+    private String getRedirectCadUsuario() {
+        return "redirect:/cadastro-usuario";
+    }
+
+    @NotNull
+    private String getUsuarios() {
+        return "usuarios";
+    }
+
+    @NotNull
+    private String getCargoTypes() {
+        return "cargoTypes";
+    }
+
+    @NotNull
+    private String getMsgSucess() {
+        return "msgSucess";
+    }
+
+    @NotNull
+    private String getRedirectGerUsuario() {
         return "redirect:/gerenciamento-usuario";
     }
 }

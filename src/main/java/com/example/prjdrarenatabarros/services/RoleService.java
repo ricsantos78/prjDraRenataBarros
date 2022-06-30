@@ -3,12 +3,13 @@ package com.example.prjdrarenatabarros.services;
 import com.example.prjdrarenatabarros.domain.entity.Especialidade;
 import com.example.prjdrarenatabarros.domain.entity.Role;
 
+import java.util.UUID;
+
 public interface RoleService {
 
-    public Iterable<Role> findAll();
-    public Role find(Long id);
-    public Role save(Role s);
-    public void delete(Long id);
-//    public Iterable<Role> findEspecialidadeByName(String nome);
+    Iterable<Role> findAll();
+    Role find(UUID id);
+    Role save(Role s);
+    void delete(UUID id);
 
 }
