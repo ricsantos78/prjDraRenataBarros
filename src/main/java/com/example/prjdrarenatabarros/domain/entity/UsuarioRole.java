@@ -22,12 +22,10 @@ public class UsuarioRole implements Serializable {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    @Column(name = "USER_ID")
+    @JoinColumn(name = "user_id", nullable = false)
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "role_id")
-    @Column(name = "ROLE_ID")
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 }

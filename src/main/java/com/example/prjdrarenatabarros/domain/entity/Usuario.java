@@ -48,8 +48,7 @@ public class Usuario implements Serializable, UserDetails {
     private String senha;
 
     @ManyToOne
-    @JoinColumn(name = "especialidade_id")
-    @Column(name = "specialty_id")
+    @JoinColumn(name = "specialty_id")
     private Especialidade especialidade;
 
     @OneToMany(mappedBy = "usuario")

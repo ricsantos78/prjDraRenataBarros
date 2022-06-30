@@ -30,8 +30,7 @@ public class Servico implements Serializable {
     private String valor;
 
     @ManyToOne
-    @JoinColumn(name = "especialidade_id")
-    @Column(name = "specialty_id")
+    @JoinColumn(name = "specialty_id")
     private Especialidade especialidade;
 
 }

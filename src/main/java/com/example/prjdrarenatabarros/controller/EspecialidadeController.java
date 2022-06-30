@@ -4,8 +4,6 @@ import com.example.prjdrarenatabarros.domain.entity.Especialidade;
 import com.example.prjdrarenatabarros.domain.entity.Paciente;
 import com.example.prjdrarenatabarros.services.EspecialidadeService;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Controller
@@ -62,13 +61,13 @@ public class EspecialidadeController {
         return andView;
     }
 
-    @Contract(pure = true)
-    private @NotNull String getViewGerenciamento() {
-        return "gerenciamento/gerenciamento-specialised";
+    @NotNull
+    private  String getViewGerenciamento() {
+        return "gerenciamento/gerenciamento-especialidade";
     }
 
-    @Contract(pure = true)
-    private @NotNull String getEspecialidades() {
+    @NotNull
+    private String getEspecialidades() {
         return "especialidades";
     }
 }
